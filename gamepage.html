@@ -77,6 +77,13 @@
             box-shadow: 0 2px 8px rgba(0,0,0,0.5);
         }
         .search-input::placeholder { color: rgba(255,255,255,0.55); }
+        .search-count {
+            margin-left: 12px;
+            color: rgba(255,255,255,0.8);
+            align-self: center;
+            font-size: 14px;
+            white-space: nowrap;
+        }
         .no-results {
             margin-top: 18px;
             color: #ff6b6b;
@@ -119,6 +126,7 @@
         <p>All games/ports are from GN-Math, TruffledUBG and Ultimate Game Stash!</p>
             <div class="search-container">
                 <input id="search-input" class="search-input" type="search" placeholder="Search games..." aria-label="Search games">
+                <span id="search-count" class="search-count" aria-live="polite"></span>
             </div>
         <div class="game-list">
             <a class="game-link" href="hollowknight.html">
@@ -1230,7 +1238,7 @@
                 <div>Whack Your Boss</div>
             </a>
                             <a class="game-link" href="kourio.html">
-                <img src="kourio.png" alt="Kour.io Cover">
+                <img src="kourio.jpg" alt="Kour.io Cover">
                 <div>Kour.io</div>
             </a>
                             <a class="game-link" href="idledice.html">
@@ -1240,6 +1248,86 @@
                             <a class="game-link" href="drawclimber.html">
                 <img src="drawclimber.jpg" alt="Draw Climber Cover">
                 <div>Draw Climber</div>
+            </a>
+                            <a class="game-link" href="1on1soccer.html">
+                <img src="1on1soccer.jpg" alt="1 on 1 Soccer Cover">
+                <div>1 on 1 Soccer</div>
+            </a>
+                            <a class="game-link" href="1on1tennis.html">
+                <img src="1on1tennis.jpg" alt="1 on 1 Tennis Cover">
+                <div>1 on 1 Tennis</div>
+            </a>
+                            <a class="game-link" href="3dash.html">
+                <img src="3dash.webp" alt="3Dash Cover">
+                <div>3Dash</div>
+            </a>
+                            <a class="game-link" href="60secondburgerrun.html">
+                <img src="60secondburgerrun.jpg" alt="60 Second Burger Run Cover">
+                <div>60 Second Burger Run</div>
+            </a>
+                            <a class="game-link" href="500calibercontractz.html">
+                <img src="500calibercontractz.webp" alt="500 Caliber Contractz Cover">
+                <div>500 Caliber Contractz</div>
+            </a>
+                            <a class="game-link" href="abandoned3.html">
+                <img src="abandoned3.jpg" alt="Abandoned 3 Cover">
+                <div>Abandoned 3</div>
+            </a>
+                            <a class="game-link" href="achievementunlocked.html">
+                <img src="achievementunlocked.jpg" alt="Achievement Unlocked Cover">
+                <div>Achievement Unlocked</div>
+            </a>
+                            <a class="game-link" href="mariotennis.html">
+                <img src="mariotennis.jpg" alt="Mario Tennis Cover">
+                <div>Mario Tennis</div>
+            </a>
+                            <a class="game-link" href="wavedash.html">
+                <img src="wavedash.jpg" alt="Wave Dash Cover">
+                <div>Wave Dash</div>
+            </a>
+                            <a class="game-link" href="vaportrails.html">
+                <img src="vaportrails.png" alt="Vapor Trails Cover">
+                <div>Vapor Trails</div>
+            </a>
+                            <a class="game-link" href="twinshot.html">
+                <img src="twinshot.jpg" alt="Twin Shot Cover">
+                <div>Twin Shot</div>
+            </a>
+                            <a class="game-link" href="turbostars.html">
+                <img src="turbostars.png" alt="Turbo Stars Cover">
+                <div>Turbo Stars</div>
+            </a>
+                            <a class="game-link" href="trafficjam3d.html">
+                <img src="trafficjam3d.jpg" alt="Traffic Jam 3D Cover">
+                <div>Traffic Jam 3D</div>
+            </a>
+                            <a class="game-link" href="taggame.html">
+                <img src="tag.webp" alt="Tag Cover">
+                <div>Tag</div>
+            </a>
+                            <a class="game-link" href="stateio.html">
+                <img src="stateio.png" alt="State.io Cover">
+                <div>State.io</div>
+            </a>
+                            <a class="game-link" href="spacebarclicker.html">
+                <img src="spacebarclicker.png" alt="Spacebar Clicker Cover">
+                <div>Spacebar Clicker</div>
+            </a>
+                            <a class="game-link" href="snowrider3d.html">
+                <img src="snowrider3d.webp" alt="Snow Rider 3D Cover">
+                <div>Snow Rider 3D</div>
+            </a>
+                            <a class="game-link" href="sliceitall.html">
+                <img src="sliceitall.jpg" alt="Slice it All Cover">
+                <div>Slice it All</div>
+            </a>
+                            <a class="game-link" href="rollyvortex.html">
+                <img src="rollyvortex.jpg" alt="Rolly Vortex Cover">
+                <div>Rolly Vortex</div>
+            </a>
+                            <a class="game-link" href="onlyup.html">
+                <img src="onlyup.png" alt="Only Up Cover">
+                <div>Only Up</div>
             </a>
         </div>
         <div id="no-results" class="no-results">No games match your search.</div>
@@ -1262,6 +1350,16 @@
             const input = document.getElementById('search-input');
             const gameList = document.querySelectorAll('.game-link');
             const noResults = document.getElementById('no-results');
+            const total = gameList.length;
+            const countEl = document.getElementById('search-count');
+            // initialize placeholder and count
+            if(countEl){
+                countEl.textContent = `${total} games`;
+            }
+            if(input){
+                input.placeholder = `Search (${total}) games...`;
+                input.setAttribute('aria-label', `Search games, ${total} total`);
+            }
 
             function normalize(text){
                 return text.trim().toLowerCase();
@@ -1280,6 +1378,14 @@
                     }
                 });
                 noResults.style.display = visible === 0 ? 'block' : 'none';
+                // update visible count
+                if(countEl){
+                    if(visible === total){
+                        countEl.textContent = `${total} games`;
+                    } else {
+                        countEl.textContent = `${visible} / ${total} games`;
+                    }
+                }
             }
 
             input.addEventListener('input', filterGames);
