@@ -1,10 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
-<link rel="icon" type="image/png" href="favicon.png">
-
     <meta charset="UTF-8">
+    <link rel="icon" type="image/png" href="favicon.png">
     <title>Univeristy of Adelaide</title>
     <style>
         .topbar {
@@ -30,17 +28,7 @@
         .topbar .nav a:hover {
             background: rgba(255,255,255,0.06);
         }
-        .discord-link {
-            margin: 20px 0;
-            font-size: 18px;
-        }
-        .discord-link a {
-            color: #7289DA;
-            text-decoration: none;
-        }
-        .discord-link a:hover {
-            text-decoration: underline;
-        }
+
         body {
             display: flex;
             flex-direction: column;
@@ -51,9 +39,11 @@
             background: #222;
             color: #fff;
         }
+
         .center-content {
             text-align: center;
         }
+
         .game-list {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
@@ -64,6 +54,8 @@
             max-width: 1280px;
             padding: 0 16px;
         }
+
+        /* Search bar */
         .search-container {
             margin-top: 18px;
             width: 100%;
@@ -83,6 +75,7 @@
             box-shadow: 0 2px 8px rgba(0,0,0,0.5);
         }
         .search-input::placeholder { color: rgba(255,255,255,0.55); }
+
         .search-count {
             margin-left: 12px;
             color: rgba(255,255,255,0.8);
@@ -90,12 +83,15 @@
             font-size: 14px;
             white-space: nowrap;
         }
+
         .no-results {
             margin-top: 18px;
             color: #ff6b6b;
             font-weight: bold;
             display: none;
         }
+
+        /* Card + hover */
         .game-link {
             display: flex;
             flex-direction: column;
@@ -105,7 +101,9 @@
             font-size: 1.2em;
             width: 100%;
             max-width: 220px;
+            transition: transform 0.25s ease, filter 0.25s ease;
         }
+
         .game-link img {
             width: 100%;
             height: auto;
@@ -114,64 +112,43 @@
             border-radius: 10px;
             box-shadow: 0 4px 16px rgba(0,0,0,0.5);
             margin-bottom: 10px;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
         }
-        .game-link:hover {
-            text-decoration: underline;
-        }
-    
-/* --- Added Hover Effects --- */
-.game-link {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-decoration: none;
-    color: #ffffff;
-    font-size: 1.2em;
-    width: 100%;
-    max-width: 220px;
-    transition: transform 0.25s ease, filter 0.25s ease;
-}
-.game-link img {
-    width: 100%;
-    height: auto;
-    aspect-ratio: 1 / 1;
-    object-fit: cover;
-    border-radius: 10px;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.5);
-    margin-bottom: 10px;
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
-}
-.game-link:hover {
-    transform: translateY(-6px);
-    filter: brightness(1.08);
-}
-.game-link:hover img {
-    transform: scale(1.05);
-    box-shadow: 0 6px 22px rgba(255,255,255,0.25);
-}
-.game-link:hover div {
-    text-decoration: underline;
-    filter: brightness(1.2);
-}
 
-</style>
+        .game-link:hover {
+            transform: translateY(-6px);
+            filter: brightness(1.08);
+        }
+        .game-link:hover img {
+            transform: scale(1.05);
+            box-shadow: 0 6px 22px rgba(255,255,255,0.25);
+        }
+        .game-link:hover div {
+            text-decoration: underline;
+            filter: brightness(1.2);
+        }
+    </style>
 </head>
 <body>
-    <h1>🐔 Chicken Kings Vault 🐔</h1>
+    <h1> dexterisntfunny archives </h1>
+
     <header class="topbar">
         <nav class="nav" aria-label="Main navigation">
             <a href="index.html">Home</a>
             <a href="gamepage.html">Games</a>
             <a href="apps.html">Apps</a>
-            <a href="https://discord.gg/MYpMKuf3uQ" target="_blank">Discord</a>
+            <a href="https://dexterisntfunny.vercel.app/" target="_blank">my website</a>
         </nav>
     </header>
-       <div class="center-content">
-        <p>All games/ports are from GN-Math, TruffledUBG and Ultimate Game Stash!</p>
-            <div class="search-container">
-                <input id="search-input" class="search-input" type="search" placeholder="Search games..." aria-label="Search games">
-                <span id="search-count" class="search-count" aria-live="polite"></span>
-            </div>
+
+    <div class="center-content">
+        <p>ALL GAMES FROM DEXTERISNTFUNNY</p>
+
+        <div class="search-container">
+            <input id="search-input" class="search-input" type="search" placeholder="Search games..." aria-label="Search games">
+            <span id="search-count" class="search-count" aria-live="polite"></span>
+        </div>
+
         <div class="game-list">
             <a class="game-link" href="hollowknight.html">
                 <img src="hollowknight.png" alt="Hollow Knight Cover">
@@ -3122,8 +3099,11 @@
                 <div>Age of Empires</div>
             </a>
         </div>
+               </div>
+
         <div id="no-results" class="no-results">No games match your search.</div>
     </div>
+
     <script>
         (function(){
             function sortGameListAlpha(){
@@ -3144,7 +3124,7 @@
             const noResults = document.getElementById('no-results');
             const total = gameList.length;
             const countEl = document.getElementById('search-count');
-            // initialize placeholder and count
+
             if(countEl){
                 countEl.textContent = `${total} games`;
             }
@@ -3170,7 +3150,7 @@
                     }
                 });
                 noResults.style.display = visible === 0 ? 'block' : 'none';
-                // update visible count
+
                 if(countEl){
                     if(visible === total){
                         countEl.textContent = `${total} games`;
@@ -3180,9 +3160,15 @@
                 }
             }
 
-            input.addEventListener('input', filterGames);
-            
-            input.addEventListener('keydown', (e) => { if(e.key === 'Escape'){ input.value = ''; filterGames(); } });
+            if(input){
+                input.addEventListener('input', filterGames);
+                input.addEventListener('keydown', (e) => {
+                    if(e.key === 'Escape'){
+                        input.value = '';
+                        filterGames();
+                    }
+                });
+            }
         })();
     </script>
 </body>

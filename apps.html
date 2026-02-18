@@ -1,192 +1,485 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
-<link rel="icon" type="image/png" href="favicon.png">
-
     <meta charset="UTF-8">
-    <title>University of Adelaide</title>
-    <style>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <title>dexterisntfunny archive apps</title>
 
-        .topbar {
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            gap: 12px;
-            padding: 12px 0;
+    <!-- Optional: Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-main: #121218;
+            --accent: #ff4d6a;
+            --accent-soft: rgba(255, 77, 106, 0.25);
+            --accent2: #4dd0ff;
+            --card-bg: rgba(14, 14, 22, 0.9);
+            --border-subtle: rgba(255, 255, 255, 0.08);
+            --text-main: #f5f5f7;
+            --text-muted: #a0a3b1;
         }
-        .topbar .nav {
-            display: flex;
-            gap: 10px;
-        }
-        .topbar .nav a {
-            background: rgba(255,255,255,0.04);
-            color: #ffffff;
-            padding: 8px 14px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 600;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.5);
-            transition: 0.25s ease;
-        }
-        .topbar .nav a:hover {
-            background: rgba(255,255,255,0.10);
-            transform: translateY(-3px);
+
+        * {
+            box-sizing: border-box;
         }
 
         body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            color: var(--text-main);
+            background: radial-gradient(circle at top left, #2a2b65 0, #121218 40%, #06070b 100%);
             display: flex;
             flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            margin: 0;
-            background: #222;
-            color: #fff;
         }
 
-        .center-content {
-            text-align: center;
+        /* Animated background glow */
+        body::before {
+            content: "";
+            position: fixed;
+            inset: -40%;
+            background: radial-gradient(circle at 10% 0, rgba(255,77,106,0.15) 0, transparent 50%),
+                        radial-gradient(circle at 90% 100%, rgba(77,208,255,0.18) 0, transparent 55%);
+            opacity: 0.9;
+            z-index: -1;
+            filter: blur(2px);
+            animation: bgFloat 18s ease-in-out infinite alternate;
         }
 
-        .game-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-            gap: 24px;
-            justify-items: center;
-            margin-top: 30px;
-            width: 100%;
-            max-width: 1280px;
-            padding: 0 16px;
+        @keyframes bgFloat {
+            0%   { transform: translate3d(0, 0, 0); }
+            50%  { transform: translate3d(10px, -12px, 0) scale(1.02); }
+            100% { transform: translate3d(-10px, 16px, 0) scale(1.03); }
         }
 
-        /* Search bar */
-        .search-container {
-            margin-top: 18px;
+        .page-shell {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px 18px 32px;
             width: 100%;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
+            gap: 18px;
         }
+
+        /* Top bar + branding */
+        .topbar-wrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            padding: 10px 16px;
+            border-radius: 14px;
+            background: linear-gradient(to right, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+            border: 1px solid rgba(255,255,255,0.08);
+            backdrop-filter: blur(14px) saturate(130%);
+            box-shadow: 0 18px 40px rgba(0,0,0,0.6);
+        }
+
+        .brand {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .brand-title {
+            font-size: 1.25rem;
+            font-weight: 800;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .brand-title span.highlight {
+            background: linear-gradient(120deg, var(--accent), var(--accent2));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .brand-subtitle {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+        }
+
+        .topbar {
+            display: flex;
+            gap: 10px;
+        }
+
+        .topbar .nav {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .topbar .nav a {
+            background: rgba(255,255,255,0.03);
+            color: #ffffff;
+            padding: 7px 14px;
+            border-radius: 999px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.86rem;
+            border: 1px solid transparent;
+            transition: 0.2s ease;
+        }
+
+        .topbar .nav a:hover {
+            background: rgba(255,255,255,0.09);
+            border-color: var(--accent-soft);
+            transform: translateY(-1px);
+        }
+
+        .topbar .nav a.primary-link {
+            background: linear-gradient(120deg, var(--accent), var(--accent2));
+            color: #05050a;
+            font-weight: 600;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+        }
+
+        .topbar .nav a.primary-link:hover {
+            filter: brightness(1.06);
+        }
+
+        /* Main content card */
+        .content-card {
+            margin-top: 6px;
+            padding: 22px 20px 24px;
+            border-radius: 22px;
+            background: radial-gradient(circle at top left, rgba(255,255,255,0.08), transparent 55%),
+                        radial-gradient(circle at bottom right, rgba(0,0,0,0.95), #05050a 70%);
+            border: 1px solid var(--border-subtle);
+            box-shadow: 0 30px 80px rgba(0,0,0,0.85);
+            backdrop-filter: blur(20px) saturate(140%);
+        }
+
+        .content-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            gap: 16px;
+            margin-bottom: 18px;
+        }
+
+        .content-title-block h1 {
+            margin: 0;
+            font-size: 1.8rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .content-title-block p {
+            margin: 4px 0 0;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .tag-pill {
+            padding: 4px 10px;
+            border-radius: 999px;
+            font-size: 0.74rem;
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+            border: 1px solid rgba(255,255,255,0.16);
+            color: var(--text-muted);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .tag-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 999px;
+            background: radial-gradient(circle, var(--accent) 0, transparent 65%);
+        }
+
+        .search-container {
+            margin: 10px 0 18px;
+            width: 100%;
+            display: flex;
+            justify-content: flex-start;
+        }
+
         .search-input {
-            width: 720px;
-            max-width: calc(100% - 40px);
-            padding: 10px 14px;
-            border-radius: 8px;
-            border: 1px solid rgba(255,255,255,0.12);
-            background: rgba(255,255,255,0.04);
+            width: 340px;
+            max-width: 100%;
+            padding: 9px 32px 9px 12px;
+            border-radius: 999px;
+            border: 1px solid rgba(255,255,255,0.14);
+            background: radial-gradient(circle at top left, rgba(255,255,255,0.18), rgba(0,0,0,0.9));
             color: #fff;
-            font-size: 16px;
+            font-size: 0.9rem;
             outline: none;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.75);
         }
-        .search-input::placeholder { color: rgba(255,255,255,0.55); }
+
+        .search-input::placeholder {
+            color: rgba(255,255,255,0.6);
+        }
 
         .no-results {
-            margin-top: 18px;
+            margin-top: 10px;
             color: #ff6b6b;
-            font-weight: bold;
+            font-weight: 600;
+            font-size: 0.9rem;
             display: none;
         }
 
-        /* Base card style */
+        /* App grid (same idea as game grid) */
+        .game-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 22px;
+            margin-top: 10px;
+        }
+
         .game-link {
+            position: relative;
             display: flex;
             flex-direction: column;
-            align-items: center;
+            gap: 7px;
             text-decoration: none;
             color: #ffffff;
-            font-size: 1.2em;
-            width: 100%;
-            max-width: 220px;
-            transition: transform 0.25s ease, filter 0.25s ease;
+            font-size: 0.95rem;
+            border-radius: 16px;
+            padding: 8px 8px 10px;
+            border: 1px solid rgba(255,255,255,0.06);
+            background: radial-gradient(circle at top, rgba(255,255,255,0.06), rgba(7,7,12,0.95));
+            box-shadow: 0 12px 30px rgba(0,0,0,0.85);
+            overflow: hidden;
+            transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+        }
+
+        .game-link::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at top, rgba(255,255,255,0.18), transparent 55%);
+            opacity: 0;
+            transition: opacity 0.18s ease;
+            pointer-events: none;
         }
 
         .game-link img {
             width: 100%;
-            height: auto;
+            border-radius: 12px;
             aspect-ratio: 1 / 1;
             object-fit: cover;
-            border-radius: 10px;
-            box-shadow: 0 4px 16px rgba(0,0,0,0.5);
-            margin-bottom: 10px;
-            transition: transform 0.25s ease, box-shadow 0.25s ease;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.85);
+            transition: transform 0.18s ease, box-shadow 0.18s ease;
         }
 
-        /* Hover UI Effects */
+        .game-title-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 8px;
+            padding: 0 2px;
+        }
+
+        .game-name {
+            font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .game-tag {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            color: var(--text-muted);
+        }
+
         .game-link:hover {
-            transform: translateY(-6px);
-            filter: brightness(1.08);
+            transform: translateY(-5px) scale(1.01);
+            box-shadow: 0 22px 50px rgba(0,0,0,0.9);
+            border-color: var(--accent-soft);
+            background: radial-gradient(circle at top, rgba(255,255,255,0.12), rgba(5,5,10,0.95));
+        }
+
+        .game-link:hover::before {
+            opacity: 0.9;
         }
 
         .game-link:hover img {
-            transform: scale(1.05);
-            box-shadow: 0 6px 22px rgba(255,255,255,0.25);
+            transform: translateY(-2px) scale(1.03);
+            box-shadow: 0 18px 40px rgba(0,0,0,0.95);
         }
 
-        .game-link:hover div {
+        /* Footer / credits */
+        .footer-bar {
+            margin-top: 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            padding-top: 10px;
+            border-top: 1px solid rgba(255,255,255,0.08);
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .footer-bar a {
+            color: #ffd700;
+            text-decoration: none;
+        }
+
+        .footer-bar a:hover {
             text-decoration: underline;
-            filter: brightness(1.2);
         }
 
+        @media (max-width: 720px) {
+            .topbar-wrapper {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .content-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .search-container {
+                justify-content: stretch;
+            }
+
+            .search-input {
+                width: 100%;
+            }
+        }
     </style>
 </head>
 <body>
-    <h1>🐔 Chicken King's Vault 🐔</h1>
+    <div class="page-shell">
+        <!-- Top bar + branding -->
+        <div class="topbar-wrapper">
+            <div class="brand">
+                <div class="brand-title">
+                    <span class="highlight">dexterisntfunny</span>
+                    <span>archives</span>
+                </div>
+                <div class="brand-subtitle">app collection</div>
+            </div>
 
-    <header class="topbar">
-        <nav class="nav" aria-label="Main navigation">
-            <a href="index.html">Home</a>
-            <a href="gamepage.html">Games</a>
-            <a href="apps.html">Apps</a>
-            <a href="https://discord.gg/MYpMKuf3uQ" target="_blank">Discord</a>
-        </nav>
-    </header>
-    
-    <div class="center-content">
-        <p>All apps are from The Ultimate Game Stash!</p>
-
-        <div class="game-list">
-
-            <a class="game-link" href="aichatbot.html">
-                <img src="ai.jpg" alt="AI Chatbot Cover">
-                <div>AI Chatbot</div>
-            </a>
-
-            <a class="game-link" href="proxy.html">
-                <img src="proxy.png" alt="Sandstone Proxy Cover">
-                <div>Sandstone Proxy</div>
-            </a>
-
-            <a class="game-link" href="emulatorjs.html">
-                <img src="emulatorjs.png" alt="EmulatorJS Cover">
-                <div>EmulatorJS</div>
-            </a>
-
-            <a class="game-link" href="heliosbrowser.html">
-                <img src="heliosbrowser.png" alt="Helios Browser Cover">
-                <div>Helios Browser</div>
-            </a>
-
-            <a class="game-link" href="ruffleemu.html">
-                <img src="ruffle.png" alt="Ruffle Cover">
-                <div>Ruffle</div>
-            </a>
-
-            <a class="game-link" href="playjs.html">
-                <img src="playjs.png" alt="Play!.js Cover">
-                <div>Play!.js</div>
-            </a>
-            
-            <a class="game-link" href="nautilisos.html">
-                <img src="Nautilis OS.png" alt="NautilisOS Cover">
-                <div>NautilisOS</div>
-            </a>
-            
-            <a class="game-link" href="silkapp.html">
-                <img src="Silk.webp" alt="Silk Cover">
-                <div>Silk</div>
-            </a>
+            <header class="topbar">
+                <nav class="nav" aria-label="Main navigation">
+                    <a href="index.html">Home</a>
+                    <a href="gamepage.html">Games</a>
+                    <a href="apps.html">Apps</a>
+                    <a href="https://dexterisntfunny.vercel.app/" target="_blank" class="primary-link">Main Site</a>
+                </nav>
+            </header>
         </div>
+
+        <!-- Main content card -->
+        <main class="content-card">
+            <div class="content-header">
+                <div class="content-title-block">
+                    <h1>Archive Apps</h1>
+                    <p>All apps are from the dexterisntfunny project.</p>
+                </div>
+                <div class="tag-pill">
+                    <span class="tag-dot"></span>
+                    UTILITIES
+                </div>
+            </div>
+
+            <!-- (Optional) search bar, not wired yet -->
+            <div class="search-container">
+                <input
+                    class="search-input"
+                    type="text"
+                    placeholder="Search apps… (visual only for now)"
+                    disabled
+                >
+            </div>
+
+            <div class="game-list">
+                <a class="game-link" href="aichatbot.html">
+                    <img src="ai.jpg" alt="AI Chatbot Cover">
+                    <div class="game-title-row">
+                        <div class="game-name">AI Chatbot</div>
+                        <div class="game-tag">AI</div>
+                    </div>
+                </a>
+
+                <a class="game-link" href="proxy.html">
+                    <img src="proxy.png" alt="Sandstone Proxy Cover">
+                    <div class="game-title-row">
+                        <div class="game-name">Sandstone Proxy</div>
+                        <div class="game-tag">Proxy</div>
+                    </div>
+                </a>
+
+                <a class="game-link" href="emulatorjs.html">
+                    <img src="emulatorjs.png" alt="EmulatorJS Cover">
+                    <div class="game-title-row">
+                        <div class="game-name">EmulatorJS</div>
+                        <div class="game-tag">Emulator</div>
+                    </div>
+                </a>
+
+                <a class="game-link" href="heliosbrowser.html">
+                    <img src="heliosbrowser.png" alt="Helios Browser Cover">
+                    <div class="game-title-row">
+                        <div class="game-name">Helios Browser</div>
+                        <div class="game-tag">Browser</div>
+                    </div>
+                </a>
+
+                <a class="game-link" href="ruffleemu.html">
+                    <img src="ruffle.png" alt="Ruffle Cover">
+                    <div class="game-title-row">
+                        <div class="game-name">Ruffle</div>
+                        <div class="game-tag">Flash</div>
+                    </div>
+                </a>
+
+                <a class="game-link" href="playjs.html">
+                    <img src="playjs.png" alt="Play!.js Cover">
+                    <div class="game-title-row">
+                        <div class="game-name">Play!.js</div>
+                        <div class="game-tag">Emulator</div>
+                    </div>
+                </a>
+
+                <a class="game-link" href="nautilisos.html">
+                    <img src="Nautilis OS.png" alt="NautilisOS Cover">
+                    <div class="game-title-row">
+                        <div class="game-name">NautilisOS</div>
+                        <div class="game-tag">OS</div>
+                    </div>
+                </a>
+
+                <a class="game-link" href="silkapp.html">
+                    <img src="Silk.webp" alt="Silk Cover">
+                    <div class="game-title-row">
+                        <div class="game-name">Silk</div>
+                        <div class="game-tag">Art</div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="footer-bar">
+                <span>© <span id="year"></span> dexterisntfunny archives</span>
+                <span>Apps from <a href="https://dexterisntfunny.vercel.app/" target="_blank">dexterisntfunny project</a></span>
+            </div>
+        </main>
     </div>
+
+    <script>
+        // Year in footer
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
 </body>
 </html>
